@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ad Cost Sharing</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom CSS to center the form and add a border */
+        .center-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">Ad Cost Sharing</h1>
+        
+        <!-- Centered form with a border -->
+        <div class="center-form">
+            <h2>Add Ad Record</h2>
+            <form method="post" class="form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.ad_type.id_for_label }}">Ad Type:</label>
+                    {{ form.ad_type }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.date.id_for_label }}">Date:</label>
+                    {{ form.date }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.ads_run.id_for_label }}">Ads Run:</label>
+                    {{ form.ads_run }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.actual_spend.id_for_label }}">Actual Spend:</label>
+                    {{ form.actual_spend }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.cost_sharing.id_for_label }}">Cost Sharing:</label>
+                    {{ form.cost_sharing }}
+                </div>
+                <button type="submit" class="btn btn-primary">Add Record</button>
+            </form>
+        </div>
+        <h2>Summary Table</h2>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Ad Type</th>
+                    <th>Date</th>
+                    <th>Ads Run</th>
+                    <th>Actual Spend</th>
+                    <th>Cost Sharing</th>
+                    <th>Reimbursement</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in ad_records %}
+                <tr>
+                    <td>{{ record.ad_type }}</td>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.ads_run }}</td>
+                    <td>${{ record.actual_spend }}</td>
+                    <td>${{ record.cost_sharing }}</td>
+                    <td>${{ record.reimbursement }}</td>
+                    <td>
+                        <!-- Delete button that triggers a modal -->
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ record.pk }}">
+                            Delete
+                        </button>
+
+                        <!-- Bootstrap Modal -->
+                        <div class="modal fade" id="deleteModal{{ record.pk }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this record?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <form method="POST" action="{% url 'delete_ad_record' record.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Add Bootstrap JavaScript and jQuery (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,56 @@
+<!-- {% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static '/login.css' %}">
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html> -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <!-- Add your custom CSS file -->
+    <link rel="stylesheet" href="{% static '/login.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Log In</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="form-signin">
+                        {% csrf_token %}
+                        <label for="username">Username:</label>
+                        <input class="text" type="text" name="username" required>
+                        <br>
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" required>
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
